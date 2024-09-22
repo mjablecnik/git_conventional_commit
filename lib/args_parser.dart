@@ -1,6 +1,31 @@
 import 'package:args/args.dart';
 import 'package:git_conventional_commit/core.dart';
 
+enum CommandType { option, multipleOption, flag }
+
+enum Commands {
+  type(abbr: 't', isMandatory: true, commandType: CommandType.option, commandHelp: 'Commit type.'),
+  message(abbr: 'm', isMandatory: true, commandType: CommandType.option, commandHelp: 'Commit message.'),
+  scope(abbr: 's', commandType: CommandType.option, commandHelp: 'Commit scope.'),
+  breaking(abbr: 'b', commandType: CommandType.flag, commandHelp: 'Set commit as breaking change.'),
+  help(abbr: 'h', commandType: CommandType.flag, commandHelp: 'Print this usage information.'),
+  verbose(abbr: 'V', commandType: CommandType.flag, commandHelp: 'Show additional command output.'),
+  version(abbr: 'v', commandType: CommandType.flag, commandHelp: 'Print the tool version.'),
+  ;
+
+  const Commands({
+    this.abbr,
+    this.isMandatory = false,
+    required this.commandHelp,
+    required this.commandType,
+  });
+
+  final String? abbr;
+  final bool isMandatory;
+  final String commandHelp;
+  final CommandType commandType;
+}
+
 class Arguments {
   final bool isVerbose;
   final bool showHelp;
@@ -21,48 +46,18 @@ class Arguments {
   });
 
   static ArgParser _parser() {
-    return ArgParser()
-      ..addOption(
-        'type',
-        abbr: 't',
-        mandatory: true,
-        help: 'Commit type.',
-      )
-      ..addOption(
-        'message',
-        abbr: 'm',
-        mandatory: true,
-        help: 'Commit message.',
-      )
-      ..addOption(
-        'scope',
-        abbr: 's',
-        help: 'Commit description.',
-      )
-      ..addFlag(
-        'breaking',
-        abbr: 'b',
-        negatable: false,
-        help: 'Set commit as breaking change.',
-      )
-      ..addFlag(
-        'help',
-        abbr: 'h',
-        negatable: false,
-        help: 'Print this usage information.',
-      )
-      ..addFlag(
-        'verbose',
-        abbr: 'V',
-        negatable: false,
-        help: 'Show additional command output.',
-      )
-      ..addFlag(
-        'version',
-        abbr: 'v',
-        negatable: false,
-        help: 'Print the tool version.',
-      );
+    final argParser = ArgParser();
+    for (var value in Commands.values) {
+      switch (value.commandType) {
+        case CommandType.option:
+          argParser.addOption(value.name, abbr: value.abbr, mandatory: value.isMandatory, help: value.commandHelp);
+        case CommandType.multipleOption:
+          argParser.addMultiOption(value.name, abbr: value.abbr, help: value.commandHelp);
+        case CommandType.flag:
+          argParser.addFlag(value.name, abbr: value.abbr, help: value.commandHelp);
+      }
+    }
+    return argParser;
   }
 
   static get usage => _parser().usage;
@@ -82,13 +77,13 @@ class Arguments {
   static Future<Arguments> parse(List<String> arguments) async {
     final ArgResults results = _parser().parse(arguments);
     return Arguments(
-      showHelp: results.wasParsed('help'),
-      isVerbose: results.wasParsed('verbose'),
-      showVersion: results.wasParsed('version'),
-      commitType: _getOptionOrThrow(results, option: 'type'),
-      commitMessage: _getOptionOrThrow(results, option: 'message'),
-      commitScope: _getOptionOrNull(results, option: 'scope'),
-      isBreakingChange: results.wasParsed('breaking'),
+      showHelp: results.wasParsed(Commands.help.name),
+      isVerbose: results.wasParsed(Commands.verbose.name),
+      showVersion: results.wasParsed(Commands.version.name),
+      commitType: _getOptionOrThrow(results, option: Commands.type.name),
+      commitMessage: _getOptionOrThrow(results, option: Commands.message.name),
+      commitScope: _getOptionOrNull(results, option: Commands.scope.name),
+      isBreakingChange: results.wasParsed(Commands.breaking.name),
     );
   }
 }
