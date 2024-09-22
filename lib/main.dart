@@ -1,3 +1,5 @@
+import 'dart:io';
+
 import 'package:git_conventional_commit/app_info.dart';
 
 import 'args_parser.dart';
@@ -18,11 +20,17 @@ void main(List<String> args) {
       print("Verbose: ${args.isVerbose}");
       print("Type: ${args.commitType}");
       print("Description: ${args.commitDescription}");
+      print("Scope: ${args.commitScope}");
+      print("Breaking: ${args.isBreakingChange}");
     }
   }, onError: (error) {
-    print(error.message);
-    showHelp();
-    return;
+    try {
+      print(error.message);
+      showHelp();
+    } catch (e) {
+      print("$error\n");
+      stdout.write(error.stackTrace);
+    }
   });
 }
 

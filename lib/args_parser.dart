@@ -7,6 +7,8 @@ class Arguments {
   final bool showVersion;
   final String commitType;
   final String commitDescription;
+  final String? commitScope;
+  final bool isBreakingChange;
 
   const Arguments({
     required this.showVersion,
@@ -14,6 +16,8 @@ class Arguments {
     required this.isVerbose,
     required this.commitType,
     required this.commitDescription,
+    required this.commitScope,
+    required this.isBreakingChange,
   });
 
   static ArgParser _parser() {
@@ -29,6 +33,17 @@ class Arguments {
         abbr: 'd',
         mandatory: true,
         help: 'Commit description.',
+      )
+      ..addOption(
+        'scope',
+        abbr: 's',
+        help: 'Commit description.',
+      )
+      ..addFlag(
+        'breaking',
+        abbr: 'b',
+        negatable: false,
+        help: 'Set commit as breaking change.',
       )
       ..addFlag(
         'help',
@@ -52,7 +67,11 @@ class Arguments {
 
   static get usage => _parser().usage;
 
-  static _getOptionOrThrowException(ArgResults results, {required String option, String? errorMessage}) {
+  static _getOptionOrNull(ArgResults results, {required String option}) {
+    return results.wasParsed(option) ? results.option(option) : null;
+  }
+
+  static _getOptionOrThrow(ArgResults results, {required String option, String? errorMessage}) {
     if (results.wasParsed(option)) {
       return results.option(option);
     } else {
@@ -66,8 +85,10 @@ class Arguments {
       showHelp: results.wasParsed('help'),
       isVerbose: results.wasParsed('verbose'),
       showVersion: results.wasParsed('version'),
-      commitType: _getOptionOrThrowException(results, option: 'type'),
-      commitDescription: _getOptionOrThrowException(results, option: 'description'),
+      commitType: _getOptionOrThrow(results, option: 'type'),
+      commitDescription: _getOptionOrThrow(results, option: 'description'),
+      commitScope: _getOptionOrNull(results, option: 'scope'),
+      isBreakingChange: results.wasParsed('breaking'),
     );
   }
 }
