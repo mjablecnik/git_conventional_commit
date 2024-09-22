@@ -7,7 +7,9 @@ import 'args_parser.dart';
 /*
 
 Example of usage:
-dart lib/main.dart -V --name Martin -t dart,python,java
+dart lib/main.dart -t feat -m "Add new feature" -b -s '#1234'
+
+gc -m 'Add something'
 
  */
 void main(List<String> args) {
@@ -19,7 +21,7 @@ void main(List<String> args) {
     } else {
       print("Verbose: ${args.isVerbose}");
       print("Type: ${args.commitType}");
-      print("Description: ${args.commitDescription}");
+      print("Message: ${args.commitMessage}");
       print("Scope: ${args.commitScope}");
       print("Breaking: ${args.isBreakingChange}");
     }

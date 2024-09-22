@@ -6,7 +6,7 @@ class Arguments {
   final bool showHelp;
   final bool showVersion;
   final String commitType;
-  final String commitDescription;
+  final String commitMessage;
   final String? commitScope;
   final bool isBreakingChange;
 
@@ -15,7 +15,7 @@ class Arguments {
     required this.showHelp,
     required this.isVerbose,
     required this.commitType,
-    required this.commitDescription,
+    required this.commitMessage,
     required this.commitScope,
     required this.isBreakingChange,
   });
@@ -29,10 +29,10 @@ class Arguments {
         help: 'Commit type.',
       )
       ..addOption(
-        'description',
-        abbr: 'd',
+        'message',
+        abbr: 'm',
         mandatory: true,
-        help: 'Commit description.',
+        help: 'Commit message.',
       )
       ..addOption(
         'scope',
@@ -86,7 +86,7 @@ class Arguments {
       isVerbose: results.wasParsed('verbose'),
       showVersion: results.wasParsed('version'),
       commitType: _getOptionOrThrow(results, option: 'type'),
-      commitDescription: _getOptionOrThrow(results, option: 'description'),
+      commitMessage: _getOptionOrThrow(results, option: 'message'),
       commitScope: _getOptionOrNull(results, option: 'scope'),
       isBreakingChange: results.wasParsed('breaking'),
     );
