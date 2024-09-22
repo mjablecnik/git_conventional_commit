@@ -1,31 +1,34 @@
 import 'package:args/args.dart';
+import 'package:git_conventional_commit/core.dart';
 
 class Arguments {
   final bool isVerbose;
   final bool showHelp;
   final bool showVersion;
-  final String? name;
-  final List<String>? tags;
+  final String commitType;
+  final String commitDescription;
 
   const Arguments({
     required this.showVersion,
     required this.showHelp,
     required this.isVerbose,
-    required this.name,
-    required this.tags,
+    required this.commitType,
+    required this.commitDescription,
   });
 
   static ArgParser _parser() {
     return ArgParser()
       ..addOption(
-        'name',
-        abbr: 'n',
-        help: 'Setup name.',
-      )
-      ..addMultiOption(
-        'tags',
+        'type',
         abbr: 't',
-        help: 'Setup tags.',
+        mandatory: true,
+        help: 'Commit type.',
+      )
+      ..addOption(
+        'description',
+        abbr: 'd',
+        mandatory: true,
+        help: 'Commit description.',
       )
       ..addFlag(
         'help',
@@ -49,6 +52,14 @@ class Arguments {
 
   static get usage => _parser().usage;
 
+  static _getOptionOrThrowException(ArgResults results, {required String option, String? errorMessage}) {
+    if (results.wasParsed(option)) {
+      return results.option(option);
+    } else {
+      throw MissingOptionException(message: errorMessage ?? 'Missing option: \'$option\'');
+    }
+  }
+
   static Future<Arguments> parse(List<String> arguments) async {
     final ArgParser argParser = _parser();
     try {
@@ -58,13 +69,11 @@ class Arguments {
         showHelp: results.wasParsed('help'),
         isVerbose: results.wasParsed('verbose'),
         showVersion: results.wasParsed('version'),
-        name: results.wasParsed('name') ? results.option('name') : null,
-        tags: results.wasParsed('tags') ? results.multiOption('tags') : null,
+        commitType: _getOptionOrThrowException(results, option: 'type'),
+        commitDescription: _getOptionOrThrowException(results, option: 'description'),
       );
-
-    } on FormatException catch (e) {
+    } on Exception catch (e) {
       rethrow;
     }
   }
 }
-
