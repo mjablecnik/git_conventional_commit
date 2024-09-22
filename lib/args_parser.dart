@@ -61,19 +61,13 @@ class Arguments {
   }
 
   static Future<Arguments> parse(List<String> arguments) async {
-    final ArgParser argParser = _parser();
-    try {
-      final ArgResults results = argParser.parse(arguments);
-
-      return Arguments(
-        showHelp: results.wasParsed('help'),
-        isVerbose: results.wasParsed('verbose'),
-        showVersion: results.wasParsed('version'),
-        commitType: _getOptionOrThrowException(results, option: 'type'),
-        commitDescription: _getOptionOrThrowException(results, option: 'description'),
-      );
-    } on Exception catch (e) {
-      rethrow;
-    }
+    final ArgResults results = _parser().parse(arguments);
+    return Arguments(
+      showHelp: results.wasParsed('help'),
+      isVerbose: results.wasParsed('verbose'),
+      showVersion: results.wasParsed('version'),
+      commitType: _getOptionOrThrowException(results, option: 'type'),
+      commitDescription: _getOptionOrThrowException(results, option: 'description'),
+    );
   }
 }

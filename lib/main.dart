@@ -1,5 +1,4 @@
 import 'package:git_conventional_commit/app_info.dart';
-import 'package:git_conventional_commit/core.dart';
 
 import 'args_parser.dart';
 
@@ -21,15 +20,11 @@ void main(List<String> args) {
       print("Description: ${args.commitDescription}");
     }
   }, onError: (error) {
-    if (error is FormatException || error is MissingOptionException) {
-      print(error.message);
-      showHelp();
-      return;
-    }
-    print(error);
+    print(error.message);
+    showHelp();
+    return;
   });
 }
-
 
 showHelp() {
   print("\nUsage:");
