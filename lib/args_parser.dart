@@ -1,5 +1,5 @@
 import 'package:args/args.dart';
-import 'package:git_conventional_commit/core.dart';
+import 'package:git_conventional_commit/exceptions.dart';
 
 enum CommandType { option, multipleOption, flag }
 
