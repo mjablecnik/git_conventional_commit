@@ -1,6 +1,9 @@
 import 'dart:io';
 
+import 'package:cli_menu/cli_menu.dart';
 import 'package:git_conventional_commit/app_info.dart';
+import 'package:git_conventional_commit/commit_type.dart';
+import 'package:git_conventional_commit/git_command_builder.dart';
 
 import 'args_parser.dart';
 
@@ -24,6 +27,15 @@ void main(List<String> args) {
       print("Message: ${args.commitMessage}");
       print("Scope: ${args.commitScope}");
       print("Breaking: ${args.isBreakingChange}");
+
+      final gitCommand = GitCommandBuilder().build(
+        type: args.commitType,
+        message: args.commitMessage,
+        scope: args.commitScope,
+        isBreaking: args.isBreakingChange,
+      );
+
+      print(gitCommand);
     }
   }, onError: (error) {
     try {

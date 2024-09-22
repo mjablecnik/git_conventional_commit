@@ -35,7 +35,31 @@ enum CommitType {
   merge("Merge branches"),
   revert("Revert a previous commit"),
   ;
+
   const CommitType(this.description);
 
   final String description;
+}
+
+enum CommitTypeCollection {
+  feat(types: [CommitType.ux, CommitType.feat, CommitType.docs, CommitType.i18n]),
+  improve(types: [CommitType.perf, CommitType.style, CommitType.refactor]),
+  test(types: [CommitType.test, CommitType.mock]),
+  fix(types: [CommitType.fix, CommitType.hotfix, CommitType.security]),
+  config(types: [
+    CommitType.ci,
+    CommitType.env,
+    CommitType.dep,
+    CommitType.config,
+    CommitType.lint,
+    CommitType.legal,
+    CommitType.build,
+    CommitType.chore
+  ]),
+  devel(types: [CommitType.wip, CommitType.temp, CommitType.merge, CommitType.revert]),
+  ;
+
+  const CommitTypeCollection({required this.types});
+
+  final List<CommitType> types;
 }

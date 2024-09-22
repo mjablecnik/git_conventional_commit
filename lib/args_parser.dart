@@ -4,8 +4,8 @@ import 'package:git_conventional_commit/core.dart';
 enum CommandType { option, multipleOption, flag }
 
 enum Commands {
-  type(abbr: 't', isMandatory: true, commandType: CommandType.option, commandHelp: 'Commit type.'),
-  message(abbr: 'm', isMandatory: true, commandType: CommandType.option, commandHelp: 'Commit message.'),
+  type(abbr: 't', isMandatory: false, commandType: CommandType.option, commandHelp: 'Commit type.'),
+  message(abbr: 'm', isMandatory: false, commandType: CommandType.option, commandHelp: 'Commit message.'),
   scope(abbr: 's', commandType: CommandType.option, commandHelp: 'Commit scope.'),
   breaking(abbr: 'b', commandType: CommandType.flag, commandHelp: 'Set commit as breaking change.'),
   help(abbr: 'h', commandType: CommandType.flag, commandHelp: 'Print this usage information.'),
@@ -30,8 +30,8 @@ class Arguments {
   final bool isVerbose;
   final bool showHelp;
   final bool showVersion;
-  final String commitType;
-  final String commitMessage;
+  final String? commitType;
+  final String? commitMessage;
   final String? commitScope;
   final bool isBreakingChange;
 
@@ -80,8 +80,8 @@ class Arguments {
       showHelp: results.wasParsed(Commands.help.name),
       isVerbose: results.wasParsed(Commands.verbose.name),
       showVersion: results.wasParsed(Commands.version.name),
-      commitType: _getOptionOrThrow(results, option: Commands.type.name),
-      commitMessage: _getOptionOrThrow(results, option: Commands.message.name),
+      commitType: _getOptionOrNull(results, option: Commands.type.name),
+      commitMessage: _getOptionOrNull(results, option: Commands.message.name),
       commitScope: _getOptionOrNull(results, option: Commands.scope.name),
       isBreakingChange: results.wasParsed(Commands.breaking.name),
     );
