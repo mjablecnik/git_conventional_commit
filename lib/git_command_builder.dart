@@ -8,6 +8,8 @@ class GitCommandBuilder {
   String buildCommitMessage({String? type, String? message, String? scope, required bool isBreaking}) {
     final sb = StringBuffer();
 
+    scope = scope ?? _getScope();
+
     CommitType commitType;
 
     if (type == null) {
@@ -23,7 +25,6 @@ class GitCommandBuilder {
 
     sb.write(commitType.name);
 
-    scope = scope ?? _getScope();
     if (scope != null && scope.isNotEmpty) sb.write("($scope)");
     if (isBreaking || _getBreakingChange()) sb.write("!");
 
