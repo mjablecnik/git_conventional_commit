@@ -1,5 +1,5 @@
 name: git_conventional_commit
-description: Simple command for create conventional commits
+description: Simple command for create your conventional commits
 version: 1.0.0
 
 environment:
