@@ -1,6 +1,6 @@
 name: git_conventional_commit
-description: A sample command-line application with basic argument parsing.
-version: 0.0.1
+description: Simple command for create conventional commits
+version: 1.0.0
 
 environment:
   sdk: '>=3.1.0 <4.0.0'
@@ -8,13 +8,7 @@ environment:
 dependencies:
   yaml: ^3.1.2
   args: ^2.4.2
-  #dcli: ^6.0.5
-  #cli_util: ^0.4.1
   cli_menu: ^0.4.0+1
-  #cli_spin: ^1.0.1
-  #cli_table: ^1.0.2
-  #cli_config: ^0.2.0
-  #cli_completion: ^0.5.1
 
 dev_dependencies:
   lints: ^4.0.0
