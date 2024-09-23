@@ -5,6 +5,10 @@ Simple command for create your conventional commits.
 ## Install
 1) Run command: `dart compile exe lib/main.dart -o bin/git-conventional-commit`
 2) Move `bin/git-conventional-commit` into your `bin` path of your system.
+MacOS example:
+```
+cp bin/git-conventional-commit ~/.local/bin/
+```
 
 
 ## Usage:
