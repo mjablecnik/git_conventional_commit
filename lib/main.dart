@@ -1,8 +1,6 @@
 import 'dart:io';
 
-import 'package:cli_menu/cli_menu.dart';
 import 'package:git_conventional_commit/app_info.dart';
-import 'package:git_conventional_commit/commit_type.dart';
 import 'package:git_conventional_commit/git_command_builder.dart';
 
 import 'args_parser.dart';
@@ -28,20 +26,26 @@ void main(List<String> args) {
       print("Scope: ${args.commitScope}");
       print("Breaking: ${args.isBreakingChange}");
 
-      final String gitCommand;
+      final List<String> gitArgs;
 
       if (args.amend) {
-        gitCommand = 'git commit --amend';
+        gitArgs = ['commit', '--amend'];
       } else {
-        gitCommand = GitCommandBuilder().buildCommit(
+        final commitMessage = GitCommandBuilder().buildCommitMessage(
           type: args.commitType,
           message: args.commitMessage,
           scope: args.commitScope,
           isBreaking: args.isBreakingChange,
         );
+        gitArgs = ['commit', '-m', commitMessage];
       }
 
-      print(gitCommand);
+      print('');
+
+      final p = await Process.start('git', gitArgs);
+      await stdout.addStream(p.stdout);
+
+      exit(0);
     }
   }, onError: (error) {
     try {
@@ -50,6 +54,8 @@ void main(List<String> args) {
     } catch (e) {
       print("$error\n");
       stdout.write(error.stackTrace);
+    } finally {
+      exit(1);
     }
   });
 }

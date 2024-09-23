@@ -4,8 +4,8 @@ import 'package:cli_menu/cli_menu.dart';
 import 'package:git_conventional_commit/commit_type.dart';
 
 class GitCommandBuilder {
-  String buildCommit({String? type, String? message, String? scope, required bool isBreaking}) {
-    final sb = StringBuffer("git commit -m '");
+  String buildCommitMessage({String? type, String? message, String? scope, required bool isBreaking}) {
+    final sb = StringBuffer();
 
     CommitType commitType;
 
@@ -29,7 +29,6 @@ class GitCommandBuilder {
     sb.write(": ");
     message = message ?? _getMessage();
     sb.write(message.replaceRange(0, 1, message[0].toLowerCase()));
-    sb.write("'");
 
     return sb.toString();
   }
