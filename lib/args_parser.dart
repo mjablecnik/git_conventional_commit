@@ -57,7 +57,7 @@ class Arguments {
         case CommandType.multipleOption:
           argParser.addMultiOption(value.name, abbr: value.abbr, help: value.commandHelp);
         case CommandType.flag:
-          argParser.addFlag(value.name, abbr: value.abbr, help: value.commandHelp);
+          argParser.addFlag(value.name, abbr: value.abbr, help: value.commandHelp, negatable: false);
       }
     }
     return argParser;
