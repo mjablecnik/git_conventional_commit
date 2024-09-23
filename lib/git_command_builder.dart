@@ -42,7 +42,7 @@ class GitCommandBuilder {
 
   String? _getScope() {
     print("\nAdd scope:");
-    final scopes = AppInfo().getGitScope();
+    final scopes = AppInfo().gitScope;
     final result = Menu([
       'none',
       'custom',

@@ -5,10 +5,6 @@ import 'package:git_conventional_commit/git_command_builder.dart';
 
 import 'args_parser.dart';
 
-/*
-Example of usage:
-dart lib/main.dart -t feat -m "Add new feature" -b -s '#1234'
- */
 void main(List<String> args) {
   Arguments.parse(args).then((args) async {
     if (args.showHelp) {

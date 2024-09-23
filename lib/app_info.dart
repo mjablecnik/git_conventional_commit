@@ -2,13 +2,13 @@ import 'dart:io';
 import 'package:yaml/yaml.dart';
 
 class AppInfo {
-  dynamic _getPubspec() async {
+  dynamic get _pubspec {
     final file = File('${_projectRoot(file: 'pubspec.yaml')}/pubspec.yaml');
-    final yamlString = await file.readAsString();
+    final yamlString = file.readAsStringSync();
     return loadYaml(yamlString);
   }
 
-  List<String> getGitScope()  {
+  List<String> get gitScope {
     final file = File('${_projectRoot(file: '.gitscope')}/.gitscope');
     return file.readAsLinesSync();
   }
@@ -23,13 +23,7 @@ class AppInfo {
     return root.path;
   }
 
-  Future<String> get version async {
-    final pubspec = await _getPubspec();
-    return pubspec['version'];
-  }
+  Future<String> get version => _pubspec['version'];
 
-  Future<String> get name async {
-    final pubspec = await _getPubspec();
-    return pubspec['name'];
-  }
+  Future<String> get name  => _pubspec['name'];
 }
