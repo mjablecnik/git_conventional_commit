@@ -1,6 +1,7 @@
 import 'dart:io';
 
 import 'package:cli_menu/cli_menu.dart';
+import 'package:git_conventional_commit/app_info.dart';
 import 'package:git_conventional_commit/commit_type.dart';
 
 class GitCommandBuilder {
@@ -41,7 +42,20 @@ class GitCommandBuilder {
 
   String? _getScope() {
     print("\nAdd scope:");
-    return stdin.readLineSync();
+    final scopes = AppInfo().getGitScope();
+    final result = Menu([
+      'none',
+      'custom',
+      ...scopes.map((e) => e.toLowerCase()),
+    ]).choose().toString();
+
+    if (result == 'none') {
+      return null;
+    } else if (result == 'custom') {
+      return stdin.readLineSync();
+    } else {
+      return result;
+    }
   }
 
   bool _getBreakingChange() {
