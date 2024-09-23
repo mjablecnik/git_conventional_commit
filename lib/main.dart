@@ -28,12 +28,18 @@ void main(List<String> args) {
       print("Scope: ${args.commitScope}");
       print("Breaking: ${args.isBreakingChange}");
 
-      final gitCommand = GitCommandBuilder().build(
-        type: args.commitType,
-        message: args.commitMessage,
-        scope: args.commitScope,
-        isBreaking: args.isBreakingChange,
-      );
+      final String gitCommand;
+
+      if (args.amend) {
+        gitCommand = 'git commit --amend';
+      } else {
+        gitCommand = GitCommandBuilder().buildCommit(
+          type: args.commitType,
+          message: args.commitMessage,
+          scope: args.commitScope,
+          isBreaking: args.isBreakingChange,
+        );
+      }
 
       print(gitCommand);
     }

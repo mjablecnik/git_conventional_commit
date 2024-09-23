@@ -4,7 +4,7 @@ import 'package:cli_menu/cli_menu.dart';
 import 'package:git_conventional_commit/commit_type.dart';
 
 class GitCommandBuilder {
-  String build({String? type, String? message, String? scope, required bool isBreaking}) {
+  String buildCommit({String? type, String? message, String? scope, required bool isBreaking}) {
     final sb = StringBuffer("git commit -m '");
 
     CommitType commitType;

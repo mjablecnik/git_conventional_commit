@@ -8,6 +8,7 @@ enum Commands {
   message(abbr: 'm', isMandatory: false, commandType: CommandType.option, commandHelp: 'Commit message.'),
   scope(abbr: 's', commandType: CommandType.option, commandHelp: 'Commit scope.'),
   breaking(abbr: 'b', commandType: CommandType.flag, commandHelp: 'Set commit as breaking change.'),
+  amend(commandType: CommandType.flag, commandHelp: 'Change last commit.'),
   help(abbr: 'h', commandType: CommandType.flag, commandHelp: 'Print this usage information.'),
   verbose(abbr: 'V', commandType: CommandType.flag, commandHelp: 'Show additional command output.'),
   version(abbr: 'v', commandType: CommandType.flag, commandHelp: 'Print the tool version.'),
@@ -30,6 +31,7 @@ class Arguments {
   final bool isVerbose;
   final bool showHelp;
   final bool showVersion;
+  final bool amend;
   final String? commitType;
   final String? commitMessage;
   final String? commitScope;
@@ -39,6 +41,7 @@ class Arguments {
     required this.showVersion,
     required this.showHelp,
     required this.isVerbose,
+    required this.amend,
     required this.commitType,
     required this.commitMessage,
     required this.commitScope,
@@ -80,6 +83,7 @@ class Arguments {
       showHelp: results.wasParsed(Commands.help.name),
       isVerbose: results.wasParsed(Commands.verbose.name),
       showVersion: results.wasParsed(Commands.version.name),
+      amend: results.wasParsed(Commands.amend.name),
       commitType: _getOptionOrNull(results, option: Commands.type.name),
       commitMessage: _getOptionOrNull(results, option: Commands.message.name),
       commitScope: _getOptionOrNull(results, option: Commands.scope.name),
