@@ -53,6 +53,7 @@ class GitCommandBuilder {
     if (result == 'none') {
       return null;
     } else if (result == 'custom') {
+      print("\nWrite custom scope:");
       return stdin.readLineSync();
     } else {
       return result;
