@@ -10,7 +10,7 @@ void main(List<String> args) {
     if (args.showHelp) {
       showHelp();
     } else if (args.showVersion) {
-      print("Version: ${await AppInfo().version}");
+      print("Version: ${AppInfo().version}");
     } else {
       final List<String> gitArgs;
 

@@ -1,13 +1,6 @@
 import 'dart:io';
-import 'package:yaml/yaml.dart';
 
 class AppInfo {
-  dynamic get _pubspec {
-    final file = File('${_projectRoot(file: 'pubspec.yaml')}/pubspec.yaml');
-    final yamlString = file.readAsStringSync();
-    return loadYaml(yamlString);
-  }
-
   List<String> get gitScope {
     final file = File('${_projectRoot(file: '.gitscope')}/.gitscope');
     return file.readAsLinesSync();
@@ -23,7 +16,7 @@ class AppInfo {
     return root.path;
   }
 
-  Future<String> get version => _pubspec['version'];
+  String get version => "1.0.0";
 
-  Future<String> get name  => _pubspec['name'];
+  String get name  => "git_conventional_commit";
 }
