@@ -13,11 +13,12 @@ void main(List<String> args) {
       print("Version: ${AppInfo().version}");
     } else {
       final List<String> gitArgs;
+      String commitMessage = "";
 
       if (args.amend) {
         gitArgs = ['commit', '--amend'];
       } else {
-        final commitMessage = GitCommandBuilder().buildCommitMessage(
+        commitMessage = GitCommandBuilder().buildCommitMessage(
           type: args.commitType,
           message: args.commitMessage,
           scope: args.commitScope,
@@ -30,6 +31,8 @@ void main(List<String> args) {
 
       final p = await Process.start('git', gitArgs);
       await stdout.addStream(p.stdout);
+
+      print("\nNew commit was written: \"$commitMessage\"");
 
       exit(0);
     }
