@@ -8,6 +8,8 @@ class GitCommandBuilder {
   String buildCommitMessage({String? type, String? message, String? scope, required bool isBreaking}) {
     final sb = StringBuffer();
 
+    if (!_isConventionalCommit) return message ?? _getMessage();
+
     scope = scope ?? _getScope();
 
     CommitType commitType;
@@ -62,6 +64,16 @@ class GitCommandBuilder {
 
   bool _getBreakingChange() {
     stdout.write("\nHas this commit some breaking change? (y/N) ");
+    final response = stdin.readLineSync();
+    return response?.toLowerCase() == 'yes' || response == 'Y' || response == 'y';
+  }
+
+  bool get _isConventionalCommit {
+    return AppInfo().gitScopeFileExists ? true : _getConventionalQuestion();
+  }
+
+  bool _getConventionalQuestion() {
+    stdout.write("\nDo you really want to create conventional commit? (y/N) ");
     final response = stdin.readLineSync();
     return response?.toLowerCase() == 'yes' || response == 'Y' || response == 'y';
   }

@@ -2,10 +2,10 @@ import 'dart:io';
 
 class AppInfo {
   List<String> get gitScope {
-    var rootPath = _projectRoot(file: '.gitscope');
+    String? rootPath = _projectRoot(file: gitScopeFileName);
     if (rootPath == null) return [];
 
-    final file = File('$rootPath/.gitscope');
+    final file = File('$rootPath/$gitScopeFileName');
     return file.readAsLinesSync();
   }
 
@@ -19,6 +19,10 @@ class AppInfo {
 
     return root.path;
   }
+
+  String gitScopeFileName = '.gitscope';
+
+  bool get gitScopeFileExists => _projectRoot(file: gitScopeFileName) != null;
 
   String get version => "1.0.0";
 
